@@ -56,6 +56,7 @@ AUTHENTICATION_BACKENDS = (
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -145,6 +146,8 @@ SOCIAL_AUTH_FACEBOOK_KEY = '411561656262985'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = 'b3f98358e9a488fa9b04962013fc48ec'  # App Secret
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -163,3 +166,8 @@ EMAIL_HOST_USER = "shivansh.1798@gmail.com"
 DEFAULT_FROM_EMAIL = "shivansh.1798@gmail.com"
 SERVER_EMAIL = "shivansh.1798@gmail.com"
 EMAIL_HOST_PASSWORD = "******"
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
